@@ -52,4 +52,8 @@ class User(models.Model):
         verbose_name_plural = "用户"
         db_table = "userlogin"
 
+class Cardmoney(models.Model):
+    rest_money = models.CharField(max_length=32, default="")
+    consume_money = models.CharField(max_length=32, default="")
+    consume_time = models.DateTimeField(auto_now_add=True)
 
