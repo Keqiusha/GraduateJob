@@ -5,8 +5,9 @@ from . import models, forms
 
 # Create your views here.
 def index(request):
-    pass
-    return render(request, 'cardApp/index.html')
+
+    listdata = models.Cardmoney.objects.all()
+    return render(request, 'cardApp/index.html', {"list_data": listdata})
 
 
 def login(request):
