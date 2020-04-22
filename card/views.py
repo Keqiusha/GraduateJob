@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.views.generic.base import View
 
 from . import models, forms
 
@@ -7,6 +8,7 @@ from . import models, forms
 def index(request):
 
     listdata = models.Cardmoney.objects.all()
+
     return render(request, 'cardApp/index.html', {"list_data": listdata})
 
 
@@ -26,7 +28,8 @@ def login(request):
                 message = '用户不存在！'
                 return render(request, 'cardApp/login.html', locals())
 
-            if user.password == password:
+            if user.password == password and user.username:
+                request.session['username'] = username
                 return redirect('/index/')
             else:
                 message = '密码不正确！'
