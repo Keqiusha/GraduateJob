@@ -5,12 +5,17 @@ from . import models, forms
 
 
 # Create your views here.
+
 def index(request):
-
+    user = request.session.get("username")
+    rest = models.Cardmoney.objects.get('username')
+    userinfo = models.Cardmoney.objects.all().values('consume_money', 'consume_time', 'cardnum__name', 'cardnum__card', 'cardnum__cardmoney__rest_money')
     listdata = models.Cardmoney.objects.all()
+    return render(request, 'cardApp/index.html', {"list_data": listdata}, {"username": user}, {"userinfo": userinfo})
 
-    return render(request, 'cardApp/index.html', {"list_data": listdata})
-
+def cardtest(request):
+    listinfo = models.Cardmoney.objects.all()
+    return render(request, 'cardApp/cardtest.html', {"list_info": listinfo})
 
 def login(request):
     if request.session.get('is_login', None):  # 不允许重复登录
@@ -28,7 +33,7 @@ def login(request):
                 message = '用户不存在！'
                 return render(request, 'cardApp/login.html', locals())
 
-            if user.password == password and user.username:
+            if user.password == password:
                 request.session['username'] = username
                 return redirect('/index/')
             else:
@@ -100,3 +105,4 @@ def logout(request):
     # del request.session['user_id']
     # del request.session['user_name']
     return redirect("/login/")
+

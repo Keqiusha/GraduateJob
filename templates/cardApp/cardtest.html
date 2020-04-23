@@ -1,24 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>测试界面</title>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<meta charset="utf-8">
+<link rel="stylesheet" href="//apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
 </head>
-<body>
+<body ng-app="myApp" ng-controller="userCtrl">
 
-<div class="container mt-3">
-  <form>
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text">Default</span>
-      </div>
-      <input type="text" class="form-control">
+<div class="container">
+
+<h3>Users</h3>
+
+<table class="table table-striped">
+  <thead>
+ <tr>
+    <th>#</th>
+     <th>校园卡卡号</th>
+     <th>姓名</th>
+     <th>消费时间</th>
+     <th>消费金额</th>
+     <th>剩余金额</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="user in users">
+      <td>
+        <button class="btn" ng-click="editUser(user.id)">
+          <span class="glyphicon glyphicon-pencil"></span>编辑
+        </button>
+          {% for foo in list_info %}
+           <tr>
+               <td>{{ foo.pk }}</td>
+               <td>{{ foo.cardnum.card }}</td>
+               <td>{{ foo.cardnum.name }}</td>
+               <td>{{ foo.consume_time }}</td>
+               <td>{{ foo.consume_money }}</td>
+                <td>{{ foo.rest_money }}</td>
+           </tr>
+          {% endfor %}
+          
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+<button class="btn btn-success" ng-click="editUser('new')">
+<span class="glyphicon glyphicon-user"></span>创建新用户
+</button>
+<hr>
+
+<h3 ng-show="edit">读卡器模拟</h3>
+<h3 ng-hide="edit">消费模拟</h3>
+
+<form class="form-horizontal">
+  <div class="form-group">
+    <label class="col-sm-2 control-label">卡号:</label>
+    <div class="col-sm-10">
+    <input type="text" ng-model="fName" ng-disabled="!edit" placeholder="卡号">
     </div>
-  </form>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">姓名:</label>
+    <div class="col-sm-10">
+    <input type="text" ng-model="lName" ng-disabled="!edit" placeholder="姓名">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">消费时间:</label>
+    <div class="col-sm-10">
+    <input type="text" ng-model="passw1" placeholder="消费时间">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">消费金额:</label>
+    <div class="col-sm-10">
+    <input type="text" ng-model="passw2" placeholder="消费金额">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">剩余金额:</label>
+    <div class="col-sm-10">
+    <input type="text" ng-model="passw2" placeholder="剩余金额">
+    </div>
+  </div>
+</form>
+
+<hr>
+<button class="btn btn-success" ng-disabled="error || incomplete">
+<span class="glyphicon glyphicon-save"></span>修改
+</button>
+
 </div>
 </body>
 </html>

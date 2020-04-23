@@ -31,7 +31,7 @@
             <li class="nav-item nav-item-has-subnav">
               <a href="javascript:void(0)"><i class="mdi mdi-format-align-justify"></i> 模拟界面</a>
               <ul class="nav nav-subnav">
-                <li> <a href="lyear_forms_radio.html">模拟</a> </li>
+                <li> <a href="/cardtest/">模拟</a> </li>
 {#                <li> <a href="lyear_forms_checkbox.html">复选框</a> </li>#}
 {#                <li> <a href="lyear_forms_switch.html">开关</a> </li>#}
               </ul>
@@ -65,12 +65,12 @@
           <ul class="topbar-right">
             <li class="dropdown dropdown-profile">
               <a href="javascript:void(0)" data-toggle="dropdown">
-                <img class="img-avatar img-avatar-48 m-r-10" src="{% static 'images/users/avatar.jpg'%}" alt="笔下光年" />
-                    <span>{{  }}<span class="caret"></span></span>
+                <img class="img-avatar img-avatar-48 m-r-10" src="{% static 'images/users/avatar.jpg'%}" alt="王柯" />
+                    <span>{{request.session.username}}<span class="caret"></span></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li> <a href="lyear_pages_profile.html"><i class="mdi mdi-account"></i> 个人信息</a> </li>
-                <li> <a href="lyear_pages_edit_pwd.html"><i class="mdi mdi-lock-outline"></i> 修改密码</a> </li>
+                <li> <a href="#"><i class="mdi mdi-account"></i> 个人信息</a> </li>
+                <li> <a href="#"><i class="mdi mdi-lock-outline"></i> 修改密码</a> </li>
                 <li> <a href="javascript:void(0)"><i class="mdi mdi-delete"></i> 清空缓存</a></li>
                 <li class="divider"></li>
                 <li> <a href="/logout/"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
@@ -313,102 +313,17 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>设计新主题</td>
-                        <td>10/02/2019</td>
-                        <td>12/05/2019</td>
-                        <td><span class="label label-warning">待定</span></td>
-                        <td>
-                          <div class="progress progress-striped progress-sm">
-                            <div class="progress-bar progress-bar-warning" style="width: 45%;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>网站重新设计</td>
-                        <td>01/03/2019</td>
-                       <td>12/04/2019</td>
-                        <td><span class="label label-success">进行中</span></td>
-                        <td>
-                          <div class="progress progress-striped progress-sm">
-                            <div class="progress-bar progress-bar-success" style="width: 30%;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>模型设计</td>
-                         <td>10/10/2019</td>
-                         <td>12/11/2019</td>
-                        <td><span class="label label-warning">待定</span></td>
-                        <td>
-                          <div class="progress progress-striped progress-sm">
-                            <div class="progress-bar progress-bar-warning" style="width: 25%;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>后台管理系统模板设计</td>
-                        <td>25/01/2019</td>
-                        <td>09/05/2019</td>
-                        <td><span class="label label-success">进行中</span></td>
-                        <td>
-                          <div class="progress progress-striped progress-sm">
-                            <div class="progress-bar progress-bar-success" style="width: 55%;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>5</td>
-                        <td>前端设计</td>
-                        <td>10/10/2019</td>
-                        <td>12/12/2019</td>
-                        <td><span class="label label-danger">未开始</span></td>
-                        <td>
-                          <div class="progress progress-striped progress-sm">
-                            <div class="progress-bar progress-bar-danger" style="width: 0%;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>6</td>
-                        <td>桌面软件测试</td>
-                        <td>10/01/2019</td>
-                        <td>29/03/2019</td>
-                        <td><span class="label label-success">进行中</span></td>
-                        <td>
-                          <div class="progress progress-striped progress-sm">
-                            <div class="progress-bar progress-bar-success" style="width: 75%;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>7</td>
-                        <td>APP改版开发</td>
-                        <td>25/02/2019</td>
-                        <td>12/05/2019</td>
-                        <td><span class="label label-danger">暂停</span></td>
-                        <td>
-                          <div class="progress progress-striped progress-sm">
-                            <div class="progress-bar progress-bar-danger" style="width: 15%;"></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>8</td>
-                        <td>Logo设计</td>
-                        <td>10/02/2019</td>
-                        <td>01/03/2019</td>
-                        <td><span class="label label-warning">完成</span></td>
-                        <td>
-                          <div class="progress progress-striped progress-sm">
-                            <div class="progress-bar progress-bar-success" style="width: 100%;"></div>
-                          </div>
-                        </td>
-                      </tr>
+                    {% for list_datum in list_data %}
+                        <tr>
+                        <td>{{ list_datum.pk }}</td>
+                        <td>{{ list_datum.cardnum.card }}</td>
+                        <td>{{ list_datum.cardnum.name }}</td>
+                        <td>{{ list_datum.consume_time }}</td>
+                        <td>{{ list_datum.consume_money }}</td>
+                        <td>{{ list_datum.rest_money }}</td>
+                        </tr>
+                    {% endfor %}
+
                     </tbody>
                   </table>
                 </div>
