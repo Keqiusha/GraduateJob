@@ -52,4 +52,16 @@ class User(models.Model):
         verbose_name_plural = "用户"
         db_table = "userlogin"
 
+class Cardmoney(models.Model):
+    rest_money = models.CharField(max_length=32, default="")
+    consume_money = models.CharField(max_length=32, default="")
+    consume_time = models.DateTimeField(auto_now_add=True)
+    #设置一个外键
+    cardnum = models.ForeignKey('User', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ["-consume_time"]
+        verbose_name = "消费表"
+        verbose_name_plural = "消费表"
+        db_table = "userconsume"
 

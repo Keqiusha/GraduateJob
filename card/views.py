@@ -1,13 +1,21 @@
 from django.shortcuts import render, redirect
+from django.views.generic.base import View
 
 from . import models, forms
 
 
 # Create your views here.
-def index(request):
-    pass
-    return render(request, 'cardApp/index.html')
 
+def index(request):
+    user = request.session.get("username")
+    rest = models.Cardmoney.objects.get('username')
+    userinfo = models.Cardmoney.objects.all().values('consume_money', 'consume_time', 'cardnum__name', 'cardnum__card', 'cardnum__cardmoney__rest_money')
+    listdata = models.Cardmoney.objects.all()
+    return render(request, 'cardApp/index.html', {"list_data": listdata}, {"username": user}, {"userinfo": userinfo})
+
+def cardtest(request):
+    listinfo = models.Cardmoney.objects.all()
+    return render(request, 'cardApp/cardtest.html', {"list_info": listinfo})
 
 def login(request):
     if request.session.get('is_login', None):  # 不允许重复登录
@@ -26,6 +34,7 @@ def login(request):
                 return render(request, 'cardApp/login.html', locals())
 
             if user.password == password:
+                request.session['username'] = username
                 return redirect('/index/')
             else:
                 message = '密码不正确！'
@@ -96,3 +105,4 @@ def logout(request):
     # del request.session['user_id']
     # del request.session['user_name']
     return redirect("/login/")
+
