@@ -1,3 +1,5 @@
+from itertools import chain
+
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
 
@@ -8,15 +10,30 @@ from . import models, forms
 
 def index(request):
     user = request.session.get("username")
-    rest = models.Cardmoney.objects.get('username')
-    userinfo = models.Cardmoney.objects.all().values('consume_money', 'consume_time', 'cardnum__name', 'cardnum__card', 'cardnum__cardmoney__rest_money')
-    listdata = models.Cardmoney.objects.all()
-    return render(request, 'cardApp/index.html', {"list_data": listdata}, {"username": user}, {"userinfo": userinfo})
-
+    listdata = models.User.objects.filter(username=user)
+    return render(request, 'cardApp/index.html', locals())
 def cardtest(request):
-    listinfo = models.Cardmoney.objects.all()
-    return render(request, 'cardApp/cardtest.html', {"list_info": listinfo})
-
+    username = request.session.get("username")
+    listinfo = models.User.objects.filter(username=username)
+    cardlist = models.Cardmoney.objects.filter(username=username)
+    list = chain(listinfo, cardlist)
+    card_table = models.Cardmoney()# 实例化一个对象
+    for item in listinfo:
+        card_table.card = item.card
+        card_table.username = username
+    if request.method == 'POST':
+        card_form = forms.CardForm(request.POST)
+        message = "请检查填写的内容！"
+        if card_form.is_valid():
+            consume_money = request.POST.get('consume_money')
+            consume_time = request.POST.get('time')
+            rest_money = request.POST.get('rest_money')
+            card_table.rest_money = rest_money
+            card_table.consume_time = consume_time
+            card_table.consume_money = consume_money
+    card_table.save()
+    card_form = forms.CardForm()
+    return render(request, 'cardApp/cardtest.html', locals())
 def login(request):
     if request.session.get('is_login', None):  # 不允许重复登录
         return redirect('/index/')
@@ -26,7 +43,6 @@ def login(request):
         if login_form.is_valid():
             username = login_form.cleaned_data.get('username')
             password = login_form.cleaned_data.get('password')
-
             try:
                 user = models.User.objects.get(username=username)
             except :
@@ -49,7 +65,6 @@ def login(request):
 def register(request):
     if request.session.get('is_login', None):
         return redirect('/index/')
-
     if request.method == 'POST':
         register_form = forms.RegisterForm(request.POST)
         message = "请检查填写的内容！"
@@ -62,7 +77,6 @@ def register(request):
             name = register_form.cleaned_data.get('name')
             sex = register_form.cleaned_data.get('sex')
             onlyid = register_form.cleaned_data.get('onlyid')
-
             #sex = register_form.cleaned_data.get('sex')
 
             if password1 != password2:
@@ -93,8 +107,6 @@ def register(request):
             return render(request, 'cardApp/register.html', locals())
     register_form = forms.RegisterForm()
     return render(request, 'cardApp/register.html', locals())
-
-
 def logout(request):
     if not request.session.get('is_login', None):
         # 如果本来就未登录，也就没有登出一说
