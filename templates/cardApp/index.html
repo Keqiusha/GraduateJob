@@ -65,7 +65,7 @@
           <ul class="topbar-right">
             <li class="dropdown dropdown-profile">
               <a href="javascript:void(0)" data-toggle="dropdown">
-                <img class="img-avatar img-avatar-48 m-r-10" src="{% static 'images/users/avatar.jpg'%}" alt="王柯" />
+{#                <img class="img-avatar img-avatar-48 m-r-10" src="{% static 'images/users/avatar.jpg'%}" alt="王柯" />#}
                     <span>{{request.session.username}}<span class="caret"></span></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-right">
@@ -313,14 +313,11 @@
                       </tr>
                     </thead>
                     <tbody>
-                    {% for list_datum in list_data %}
+                    {% for list_datum in listdata %}
                         <tr>
                         <td>{{ list_datum.pk }}</td>
-                        <td>{{ list_datum.cardnum.card }}</td>
-                        <td>{{ list_datum.cardnum.name }}</td>
-                        <td>{{ list_datum.consume_time }}</td>
-                        <td>{{ list_datum.consume_money }}</td>
-                        <td>{{ list_datum.rest_money }}</td>
+                        <td>{{ list_datum.card }}</td>
+                        <td>{{ list_datum.name }}</td>
                         </tr>
                     {% endfor %}
 

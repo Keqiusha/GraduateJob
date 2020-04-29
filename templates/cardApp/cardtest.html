@@ -9,7 +9,7 @@
 
 <div class="container">
 
-<h3>Users</h3>
+<h3>用户信息</h3>
 
 <table class="table table-striped">
   <thead>
@@ -25,72 +25,65 @@
   <tbody>
     <tr ng-repeat="user in users">
       <td>
-        <button class="btn" ng-click="editUser(user.id)">
-          <span class="glyphicon glyphicon-pencil"></span>编辑
-        </button>
-          {% for foo in list_info %}
+          {% for foo in cardlist %}
            <tr>
-               <td>{{ foo.pk }}</td>
-               <td>{{ foo.cardnum.card }}</td>
-               <td>{{ foo.cardnum.name }}</td>
-               <td>{{ foo.consume_time }}</td>
-               <td>{{ foo.consume_money }}</td>
-                <td>{{ foo.rest_money }}</td>
+                <td>{{ foo.pk }}</td>
+               <td>{{ foo.card }}</td>
+               <td>{{ foo.username }}</td>
+               <td>{{ foo.consume_time}}</td>
+               <td>{{ foo.consume_money}}</td>
+               <td>{{ foo.rest_money}}</td>
            </tr>
           {% endfor %}
-          
       </td>
     </tr>
   </tbody>
 </table>
-
 <hr>
-<button class="btn btn-success" ng-click="editUser('new')">
-<span class="glyphicon glyphicon-user"></span>创建新用户
-</button>
 <hr>
-
 <h3 ng-show="edit">读卡器模拟</h3>
 <h3 ng-hide="edit">消费模拟</h3>
-
-<form class="form-horizontal">
+<form class="form-horizontal" method="post">
+  {% csrf_token %}
   <div class="form-group">
     <label class="col-sm-2 control-label">卡号:</label>
     <div class="col-sm-10">
-    <input type="text" ng-model="fName" ng-disabled="!edit" placeholder="卡号">
+        {% for foo in listinfo %}
+            {{ foo.card }}
+        {% endfor %}
     </div>
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">姓名:</label>
     <div class="col-sm-10">
-    <input type="text" ng-model="lName" ng-disabled="!edit" placeholder="姓名">
+        {% for foo in listinfo %}
+            {{ foo.name }}
+        {% endfor %}
     </div>
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">消费时间:</label>
     <div class="col-sm-10">
-    <input type="text" ng-model="passw1" placeholder="消费时间">
+        {{ card_form.consume_time}}
     </div>
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">消费金额:</label>
     <div class="col-sm-10">
-    <input type="text" ng-model="passw2" placeholder="消费金额">
+        {{ card_form.consume_money }}
     </div>
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">剩余金额:</label>
     <div class="col-sm-10">
-    <input type="text" ng-model="passw2" placeholder="剩余金额">
+        {{ card_form.rest_money }}
     </div>
   </div>
+    <div class="form-input">
+{#      <input type="submit" name=''  class="btn btn-success" value='登陆'>#}
+        <a href="/index/" class="btn btn-success">提交</a>
+    </div>
 </form>
-
-<hr>
-<button class="btn btn-success" ng-disabled="error || incomplete">
-<span class="glyphicon glyphicon-save"></span>修改
-</button>
-
 </div>
 </body>
 </html>
