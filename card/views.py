@@ -16,20 +16,18 @@ def cardtest(request):
     username = request.session.get("username")
     listinfo = models.User.objects.filter(username=username)
     cardlist = models.Cardmoney.objects.filter(username=username)
-    list = chain(listinfo, cardlist)
     card_table = models.Cardmoney()# 实例化一个对象
     for item in listinfo:
         card_table.card = item.card
         card_table.username = username
+        card_table.cardnum_id = item.id
     if request.method == 'POST':
         card_form = forms.CardForm(request.POST)
         message = "请检查填写的内容！"
         if card_form.is_valid():
             consume_money = request.POST.get('consume_money')
-            consume_time = request.POST.get('time')
             rest_money = request.POST.get('rest_money')
             card_table.rest_money = rest_money
-            card_table.consume_time = consume_time
             card_table.consume_money = consume_money
     card_table.save()
     card_form = forms.CardForm()
