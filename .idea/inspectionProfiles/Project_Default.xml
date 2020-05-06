@@ -15,6 +15,7 @@
         <list>
           <option value="rfq_detail" />
           <option value="django.core.asgi" />
+          <option value="card.views.USER_LIST" />
         </list>
       </option>
     </inspection_tool>

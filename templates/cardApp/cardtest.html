@@ -5,82 +5,43 @@
 <link rel="stylesheet" href="//apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
 <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
 </head>
-<body ng-app="myApp" ng-controller="userCtrl">
-
+<body>
 <div class="container">
-
 <h3>用户信息</h3>
-
 <table class="table table-striped">
   <thead>
  <tr>
     <th>#</th>
      <th>校园卡卡号</th>
-     <th>姓名</th>
+     <th>用户名</th>
      <th>消费时间</th>
      <th>消费金额</th>
      <th>剩余金额</th>
   </tr>
   </thead>
   <tbody>
-{#    <tr ng-repeat="user in users">#}
-{#      <td>#}
-{#          {% for foo in cardlist %}#}
-{#           <tr>#}
-{#                <td>{{ foo.pk }}</td>#}
-{#               <td>{{ foo.card }}</td>#}
-{#               <td>{{ foo.username }}</td>#}
-{#               <td>{{ foo.consume_time}}</td>#}
-{#               <td>{{ foo.consume_money}}</td>#}
-{#               <td>{{ foo.rest_money}}</td>#}
-{#           </tr>#}
-{#          {% endfor %}#}
-{#      </td>#}
-{#    </tr>#}
-     {%for item in page%}
-        <tr>
-            <td width="120px">{{forloop.counter}}</td>
-            <td width="150px"><a href="" style="color: #0f0f0f">										{{item.books.book_name}}</a></td>
-            <td width="120px">{{item.card}}</td>
-            <td width="120px">{{item.books.book_price}}</td>
-            <td width="120px">{{item.books.book_concern}}</td>
-            <td width="120px">{{item.books.book_type.book_type}}</td>
-            <td width="120px">{{message}}</td>
-            <td width="120px">{{item.borrow_book}}</td>
-        </tr>
+     {% for foo in data_list %}
+       <tr>
+           <td>{{ foo.pk }}</td>
+           <td>{{ foo.card }}</td>
+           <td>{{ foo.username }}</td>
+           <td>{{ foo.consume_time}}</td>
+           <td>{{ foo.consume_money}}</td>
+           <td>{{ foo.rest_money}}</td>
+       </tr>
     {%endfor%}
   </tbody>
-<nav aria-label="Page navigation">
-    <div class="pagination">
-        <ul class="pagination">
-        {% if page.has_previous %}   # 判断当前页是否有上一页
-            <li><a href="/cardApp/cardtest/{{page.previous_page_number}}" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span></a></li>
-        {% endif %}
-
-        {% for num in page.paginator.page_range%}  # 循环遍历页码列表，并展示到底部
-            {%if pindex == page.number%}
-                <li><a href="">{{ num }}</a></li>
-            {%else%}
-                <li><a href="/books/borrow_show/{{num}}">{{ num }}</a></li>
-            {%endif%}
-         {% endfor %}
-
-         {% if page.has_next %}  # 判断当前页是否有下一页
-             <li><a href="/cardApp/cardtest/{{page.next_page_number}}" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span></a></li>
-          {% endif %}
-        </ul>
-    </div>
-</nav>
 </table>
-
-<hr>
-<hr>
+ <div class="pagination" style="margin-top: -50px;width: 550px; margin-left: 280px;">
+        <ul class="pagination">
+                <ul class="pagination pagination-sm">
+                        {{ page_obj.page_str|safe }}
+                </ul>
+        </ul>
+ </div>
 <h3 ng-show="edit">读卡器模拟</h3>
 <h3 ng-hide="edit">消费模拟</h3>
-<form class="form-horizontal" method="post">
-  {% csrf_token %}
+<form class="form-horizontal" method="post" action="/cardtest/">
   <div class="form-group">
     <label class="col-sm-2 control-label">卡号:</label>
     <div class="col-sm-10">
@@ -93,7 +54,7 @@
     <label class="col-sm-2 control-label">姓名:</label>
     <div class="col-sm-10">
         {% for foo in listinfo %}
-            {{ foo.username }}
+            {{ foo.name }}
         {% endfor %}
     </div>
   </div>
@@ -101,20 +62,21 @@
     <label class="col-sm-2 control-label">消费金额:</label>
     <div class="col-sm-10">
         {{ card_form.consume_money }}
+{#        <input type="text" name="consume" class="form-control"  value=""/>#}
     </div>
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">剩余金额:</label>
     <div class="col-sm-10">
         {{ card_form.rest_money }}
+{#        <input type="text" name="rest" class="form-control"  value=""/>#}
     </div>
   </div>
     <div class="form-input">
-{#      <input type="submit" name=''  class="btn btn-success" value='登陆'>#}
-        <a href="/index/" class="btn btn-success">提交</a>
+        <a href="/cardtest/" class="btn btn-success">提交</a>
     </div>
-
 </form>
+<p>{{ consume }}</p>
 </div>
 </body>
 </html>
