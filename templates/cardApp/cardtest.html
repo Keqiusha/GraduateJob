@@ -23,22 +23,58 @@
   </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="user in users">
-      <td>
-          {% for foo in cardlist %}
-           <tr>
-                <td>{{ foo.pk }}</td>
-               <td>{{ foo.card }}</td>
-               <td>{{ foo.username }}</td>
-               <td>{{ foo.consume_time}}</td>
-               <td>{{ foo.consume_money}}</td>
-               <td>{{ foo.rest_money}}</td>
-           </tr>
-          {% endfor %}
-      </td>
-    </tr>
+{#    <tr ng-repeat="user in users">#}
+{#      <td>#}
+{#          {% for foo in cardlist %}#}
+{#           <tr>#}
+{#                <td>{{ foo.pk }}</td>#}
+{#               <td>{{ foo.card }}</td>#}
+{#               <td>{{ foo.username }}</td>#}
+{#               <td>{{ foo.consume_time}}</td>#}
+{#               <td>{{ foo.consume_money}}</td>#}
+{#               <td>{{ foo.rest_money}}</td>#}
+{#           </tr>#}
+{#          {% endfor %}#}
+{#      </td>#}
+{#    </tr>#}
+     {%for item in page%}
+        <tr>
+            <td width="120px">{{forloop.counter}}</td>
+            <td width="150px"><a href="" style="color: #0f0f0f">										{{item.books.book_name}}</a></td>
+            <td width="120px">{{item.card}}</td>
+            <td width="120px">{{item.books.book_price}}</td>
+            <td width="120px">{{item.books.book_concern}}</td>
+            <td width="120px">{{item.books.book_type.book_type}}</td>
+            <td width="120px">{{message}}</td>
+            <td width="120px">{{item.borrow_book}}</td>
+        </tr>
+    {%endfor%}
   </tbody>
+<nav aria-label="Page navigation">
+    <div class="pagination">
+        <ul class="pagination">
+        {% if page.has_previous %}   # 判断当前页是否有上一页
+            <li><a href="/cardApp/cardtest/{{page.previous_page_number}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span></a></li>
+        {% endif %}
+
+        {% for num in page.paginator.page_range%}  # 循环遍历页码列表，并展示到底部
+            {%if pindex == page.number%}
+                <li><a href="">{{ num }}</a></li>
+            {%else%}
+                <li><a href="/books/borrow_show/{{num}}">{{ num }}</a></li>
+            {%endif%}
+         {% endfor %}
+
+         {% if page.has_next %}  # 判断当前页是否有下一页
+             <li><a href="/cardApp/cardtest/{{page.next_page_number}}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span></a></li>
+          {% endif %}
+        </ul>
+    </div>
+</nav>
 </table>
+
 <hr>
 <hr>
 <h3 ng-show="edit">读卡器模拟</h3>
@@ -57,7 +93,7 @@
     <label class="col-sm-2 control-label">姓名:</label>
     <div class="col-sm-10">
         {% for foo in listinfo %}
-            {{ foo.name }}
+            {{ foo.username }}
         {% endfor %}
     </div>
   </div>
@@ -77,6 +113,7 @@
 {#      <input type="submit" name=''  class="btn btn-success" value='登陆'>#}
         <a href="/index/" class="btn btn-success">提交</a>
     </div>
+
 </form>
 </div>
 </body>
