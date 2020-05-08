@@ -42,6 +42,7 @@
 <h3 ng-show="edit">读卡器模拟</h3>
 <h3 ng-hide="edit">消费模拟</h3>
 <form class="form-horizontal" method="post" action="/cardtest/">
+ {% csrf_token %}
   <div class="form-group">
     <label class="col-sm-2 control-label">卡号:</label>
     <div class="col-sm-10">
@@ -73,10 +74,9 @@
     </div>
   </div>
     <div class="form-input">
-        <a href="/cardtest/" class="btn btn-success">提交</a>
+        <input type="submit" name='' value='提交'>
     </div>
 </form>
-<p>{{ consume }}</p>
 </div>
 </body>
 </html>

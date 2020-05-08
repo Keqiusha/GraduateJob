@@ -21,6 +21,5 @@ class RegisterForm(forms.Form):
     onlyid = forms.CharField(label="身份证号码", max_length=20,widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "身份证号",'autofocus': ''}))
 
 class CardForm(forms.Form):
-    consume_time = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
     rest_money = forms.CharField(max_length=128, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'剩余金额'}), )
     consume_money = forms.CharField(max_length=128, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'消费金额'}), )

@@ -1,42 +1,47 @@
-from itertools import chain
+import os
 
-from django.core.mail.backends import console
-from django.core.paginator import Paginator
+import pandas as pd
 from django.shortcuts import render, redirect
-from django.views.generic.base import View
 from card.page import Pagination
 from . import models, forms
 
-
 # Create your views here.
 
+#txt的文件路径;
+data_path = os.path.join(os.path.dirname(__file__), 'test')
 def index(request):
-    user = request.session.get("username")
-    listdata = models.User.objects.filter(username=user)
+    # with open(data_path, 'r', encoding='utf-8') as f:
+    #     content = f.readline()
+    username = request.session.get("username")
+    listdata = models.User.objects.filter(username=username)
     data = models.Cardmoney.objects.first()
+
     return render(request, 'cardApp/index.html', locals())
 def cardtest(request):
     username = request.session.get("username")
     listinfo = models.User.objects.filter(username=username)
     cardlist = models.Cardmoney.objects.filter(username=username)
-    card_table = models.Cardmoney()# 实例化一个对象
+    print(username)
     if request.method == 'POST' and request.POST:
         card_form = forms.CardForm(request.POST)
         message = "请检查填写的内容！"
         if card_form.is_valid():
-            # consume = card_form.cleaned_data.get('consume_money')
-            consume = card_form.cleaned_data.get('consume')
-            rest = card_form.cleaned_data.get('rest')
-            return render(request, 'cardApp/cardtest.html')
+            consume = card_form.cleaned_data.get('consume_money')
+            rest = card_form.cleaned_data.get('rest_money')
+            card_table = models.Cardmoney()  # 实例化一个对象
+            print("************************")
+            print(rest, consume)
+            card_table.consume_money = consume
+            card_table.rest_money = rest
+            for item in listinfo:
+                card_table.card = item.card
+                card_table.username = username
+                card_table.cardnum_id = item.id
+            card_table.save()
+            return redirect('/index/')
     else:
         card_form = forms.CardForm()
-    consume = request.POST.get('consume')
-    rest = request.POST.get('rest')
-    for item in listinfo:
-        card_table.card = item.card
-        card_table.username = username
-        card_table.cardnum_id = item.id
-    card_table.save()
+
     # 获取当前页
     current_page = request.GET.get('p')
     # 创建对象传入值 199总数
@@ -74,6 +79,8 @@ def login(request):
 
 
 def register(request):
+    with open(data_path, 'r', encoding='utf-8') as f:
+        content = f.readline()
     if request.session.get('is_login', None):
         return redirect('/index/')
     if request.method == 'POST':
@@ -106,7 +113,7 @@ def register(request):
                 new_user = models.User()
                 new_user.username = username
                 new_user.password = password1
-                new_user.card = card
+                new_user.card = content
                 new_user.email = email
                 new_user.sex = sex
                 new_user.name = name
@@ -118,7 +125,6 @@ def register(request):
             return render(request, 'cardApp/register.html', locals())
     register_form = forms.RegisterForm()
     return render(request, 'cardApp/register.html', locals())
-
 def logout(request):
     if not request.session.get('is_login', None):
         # 如果本来就未登录，也就没有登出一说
