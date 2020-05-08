@@ -23,14 +23,25 @@ class User(models.Model):
         db_table = "userlogin"
 class Cardmoney(models.Model):
     card = models.CharField(max_length=32, default='', verbose_name='卡号')
-    rest_money = models.CharField(max_length=32, default='', verbose_name='剩余金额')
-    consume_money = models.CharField(max_length=32, default='', verbose_name='消费金额')
+    rest_money = models.CharField(max_length=32, verbose_name='剩余金额')
+    consume_money = models.CharField(max_length=32, verbose_name='消费金额')
     consume_time = models.DateTimeField(auto_now_add=True, verbose_name='消费时间')
     username = models.CharField(max_length=32, default='', verbose_name='用户名')
-    cardnum = models.ForeignKey(User, on_delete=models.CASCADE,default='', verbose_name='外键')
+    cardnum = models.ForeignKey(User, on_delete=models.CASCADE, default='', verbose_name='外键')
     class Meta:
         ordering = ["-consume_time"]
         verbose_name = "消费表"
         verbose_name_plural = "消费表"
         db_table = "userconsume"
 
+class Simulation(models.Model):
+    card = models.CharField(max_length=32, default='', verbose_name='卡号')
+    rest_money = models.CharField(max_length=32, verbose_name='剩余金额')
+    consume_money = models.CharField(max_length=32, verbose_name='消费金额')
+    consume_time = models.DateTimeField(auto_now_add=True, verbose_name='消费时间')
+    username = models.CharField(max_length=32, default='', verbose_name='用户名')
+    class Meta:
+        ordering = ["-consume_time"]
+        verbose_name = "消费表"
+        verbose_name_plural = "消费表"
+        db_table = "simulation"

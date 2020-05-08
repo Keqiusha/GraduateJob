@@ -27,6 +27,7 @@
 
         <nav class="sidebar-main">
           <ul class="nav nav-drawer">
+            <li class="nav-item"> <a href="https://www.chu.edu.cn/"><i class="mdi mdi-home"></i> 后台首页</a> </li>
             <li class="nav-item active"> <a href="index.html"><i class="mdi mdi-home"></i> 后台首页</a> </li>
             <li class="nav-item nav-item-has-subnav">
               <a href="javascript:void(0)"><i class="mdi mdi-format-align-justify"></i> 模拟界面</a>
@@ -222,7 +223,9 @@
               <div class="card-body clearfix">
                 <div class="pull-right">
                   <p class="h6 text-white m-t-0">卡上余额</p>
-                  <p class="h3 text-white m-b-0">102.00</p>
+                  <p class="h3 text-white m-b-0">
+                        {{ data.rest_money }}.00
+                  </p>
                 </div>
                 <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-currency-cny fa-1-5x"></i></span> </div>
               </div>
@@ -233,8 +236,10 @@
             <div class="card bg-danger">
               <div class="card-body clearfix">
                 <div class="pull-right">
-                  <p class="h6 text-white m-t-0">本周消费金额</p>
-                  <p class="h3 text-white m-b-0">720.00</p>
+                  <p class="h6 text-white m-t-0">消费金额</p>
+                  <p class="h3 text-white m-b-0">
+                      {{data.consume_money}}.00
+                  </p>
                 </div>
                 <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-account fa-1-5x"></i></span> </div>
               </div>
@@ -258,7 +263,7 @@
               <div class="card-body clearfix">
                 <div class="pull-right">
                   <p class="h6 text-white m-t-0">消费记录</p>
-                  <p class="h3 text-white m-b-0">153 条</p>
+                  <p class="h3 text-white m-b-0">{{data.pk}}.00</p>
                 </div>
                 <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-comment-outline fa-1-5x"></i></span> </div>
               </div>
@@ -297,19 +302,20 @@
           <div class="col-lg-12">
             <div class="card">
               <div class="card-header">
-                <h4>消费记录</h4>
+                <h4>校园卡信息</h4>
+                  {{ content }}
               </div>
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table table-hover">
                     <thead>
                       <tr>
-                        <th>#</th>
+                        <th>入学名次</th>
                         <th>校园卡卡号</th>
                         <th>姓名</th>
-                        <th>消费时间</th>
-                        <th>消费金额</th>
-                        <th>剩余金额</th>
+                        <th>办卡时间</th>
+                        <th>邮箱</th>
+                        <th>用户名</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -318,6 +324,9 @@
                         <td>{{ list_datum.pk }}</td>
                         <td>{{ list_datum.card }}</td>
                         <td>{{ list_datum.name }}</td>
+                        <td>{{ list_datum.c_time }}</td>
+                        <td>{{ list_datum.email}}</td>
+                        <td>{{ list_datum.username }}</td>
                         </tr>
                     {% endfor %}
 
