@@ -14,6 +14,7 @@ def index(request):
     #     content = f.readline()
     username = request.session.get("username")
     listdata = models.User.objects.filter(username=username)
+    cardlist = models.Cardmoney.objects.filter(username=username)
     data = models.Cardmoney.objects.first()
 
     return render(request, 'cardApp/index.html', locals())
